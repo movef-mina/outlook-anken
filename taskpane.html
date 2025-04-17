@@ -135,8 +135,8 @@
         Office.context.mailbox.item.body.getAsync(Office.CoercionType.Html, function(result) {
           if (result.status === Office.AsyncResultStatus.Succeeded) {
             let currentBody = result.value;
-            const hiddenTag = `<p style="display:none;">KINTONE-ANKEN-ID:${ankenId}</p>`;
-            currentBody = currentBody.replace(/<p[^>]*>KINTONE-ANKEN-ID\s*[:：]\s*\d+<\/p>/gi, "");
+            currentBody = currentBody.replace(/<!--\s*KINTONE-ANKEN-ID\s*[:：]\s*\d+\s*-->/gi, "");
+            const hiddenTag = `<!-- KINTONE-ANKEN-ID:${ankenId} -->`;
             const updatedBody = currentBody + hiddenTag;
 
             Office.context.mailbox.item.body.setAsync(
