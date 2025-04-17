@@ -1,44 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>kintone案件連携</title>
+  <meta charset="utf-8">
+  <title>メールに案件を紐づけ</title>
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
   <style>
     body { font-family: sans-serif; padding: 20px; }
-    select, button { margin-top: 10px; padding: 5px; font-size: 14px; }
+    h3 { margin-bottom: 1em; }
+    label, select, button { display: block; margin-bottom: 12px; width: 100%; }
+    #status { margin-top: 10px; color: green; }
   </style>
 </head>
 <body>
-  <h2>kintone案件をメールに紐づけ</h2>
-  <label for="projectSelect">案件を選択:</label><br>
-  <select id="projectSelect">
-    <option value="1234">【1234】顧客A - テスト案件</option>
-    <option value="5678">【5678】顧客B - 実証案件</option>
-  </select><br>
-  <button onclick="saveAnken()">📎 メールに紐づける</button>
-  <p id="statusMessage"></p>
+  <h3>📧 メールに案件を紐づけ</h3>
+
+  <label for="ankenSelect">案件を選択：</label>
+  <select id="ankenSelect">
+    <option value="">案件を選んでください</option>
+  </select>
+
+  <button id="saveBtn">📎 メールに紐づける</button>
+
+  <div id="status"></div>
 
   <script>
-    Office.onReady(function(info) {
-      if (info.host === Office.HostType.Outlook) {
-        document.getElementById('statusMessage').textContent = 'メール作成中のOutlookで動作中';
-      }
-    });
+    const kintoneSubdomain = "nbgl9";
+    const kintoneAppId = 5;
+    const apiToken = "JXlxEnsGgUqmhKmNYr7JIJyChOCVpT5ZZ1QPjlA9";
 
-    function saveAnken() {
-      const ankenId = document.getElementById('projectSelect').value;
-      Office.context.mailbox.item.internetHeaders.setAsync(
-        'X-KINTONE-ANKEN-ID',
-        ankenId,
+    // 案件一覧を取得（レコード番号降順）
+    async function fetchAnkenList() {
+      const url = `https://${kintoneSubdomain}.cybozu.com/k/v1/records.json` +
+                  `?app=${kintoneAppId}` +
+                  `&fields=案件名,対象企業,得意先` +
+                  `&query=order by $id desc limit 100`;
+
+      try {
+        const res = await fetch(url, {
+          method: "GET",
+          headers: {
+            "X-Cybozu-API-Token": apiToken,
+            "Content-Type": "application/json"
+          }
+        });
+
+        const json = await res.json();
+        const select = document.getElementById("ankenSelect");
+
+        json.records.forEach(record => {
+          const id = record.$id.value;
+          const name = record.案件名.value || "(無題)";
+          const company = record.対象企業.value || "";
+          const client = record.得意先.value || "";
+
+          const opt = document.createElement("option");
+          opt.value = id;
+          opt.textContent = `#${id} ${name}（${client} / ${company}）`;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        const status = document.getElementById("status");
+        status.style.color = "red";
+        status.textContent = "❌ kintoneから案件を取得できませんでした";
+        console.error(err);
+      }
+    }
+
+    // 案件IDをヘッダーに保存
+    function setHeaderToMail(ankenId) {
+      const status = document.getElementById("status");
+      const item = Office.context.mailbox.item;
+
+      item.internetHeaders.setAsync(
+        { "X-KINTONE-ANKEN-ID": ankenId },
         function (asyncResult) {
-          const msg = asyncResult.status === "succeeded"
-            ? "✅ 案件ID " + ankenId + " をメールに紐づけました"
-            : "❌ 案件の保存に失敗しました";
-          document.getElementById('statusMessage').textContent = msg;
+          if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+            status.style.color = "green";
+            status.textContent = `✅ 案件 #${ankenId} をメールに紐づけました`;
+          } else {
+            status.style.color = "red";
+            status.textContent = "❌ 紐づけに失敗しました：" + asyncResult.error.message;
+            console.error(asyncResult.error);
+          }
         }
       );
     }
+
+    Office.onReady(() => {
+      fetchAnkenList();
+
+      document.getElementById("saveBtn").addEventListener("click", () => {
+        const ankenId = document.getElementById("ankenSelect").value;
+        const status = document.getElementById("status");
+
+        if (!ankenId) {
+          status.style.color = "red";
+          status.textContent = "⚠ 案件を選択してください";
+          return;
+        }
+
+        setHeaderToMail(ankenId);
+      });
+    });
   </script>
 </body>
 </html>
