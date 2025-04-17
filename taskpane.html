@@ -24,24 +24,14 @@
   <div id="status"></div>
 
   <script>
-    const kintoneSubdomain = "nbgl9";
-    const kintoneAppId = 5;
-    const apiToken = "JXlxEnsGgUqmhKmNYr7JIJyChOCVpT5ZZ1QPjlA9";
+    // Power Automate の公開URL
+    const powerAutomateUrl = "https://prod-12.japaneast.logic.azure.com:443/workflows/a642a7b7309646f8a6fbd4fbf9c77f4e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Yl29bt7t-xCrd3f5PgSHvrwZXjY-qgpgjyam6ycn6c4";
 
-    // 案件一覧を取得（レコード番号降順）
+    // 案件一覧を取得
     async function fetchAnkenList() {
-      const url = `https://${kintoneSubdomain}.cybozu.com/k/v1/records.json` +
-                  `?app=${kintoneAppId}` +
-                  `&fields=案件名,対象企業,得意先` +
-                  `&query=order by $id desc limit 100`;
-
       try {
-        const res = await fetch(url, {
-          method: "GET",
-          headers: {
-            "X-Cybozu-API-Token": apiToken,
-            "Content-Type": "application/json"
-          }
+        const res = await fetch(powerAutomateUrl, {
+          method: "GET"
         });
 
         const json = await res.json();
@@ -66,7 +56,7 @@
       }
     }
 
-    // 案件IDをヘッダーに保存
+    // 案件IDをメールヘッダーに保存
     function setHeaderToMail(ankenId) {
       const status = document.getElementById("status");
       const item = Office.context.mailbox.item;
