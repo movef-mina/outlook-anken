@@ -5,7 +5,7 @@
 
   <Id>c8e758e4-6043-4cba-9d63-6ad6f8b839d1</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Your Company</ProviderName>
+  <ProviderName>movef-mina</ProviderName>
   <DefaultLocale>ja-JP</DefaultLocale>
   <DisplayName DefaultValue="kintone連携アドイン"/>
   <Description DefaultValue="Outlookメールにkintone案件を紐づける"/>
