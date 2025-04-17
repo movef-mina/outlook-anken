@@ -50,6 +50,8 @@
         const select = document.getElementById("ankenSelect");
         select.innerHTML = '<option value="">検索結果から選択してください</option>';
 
+        const status = document.getElementById("status");
+
         if (!json.records || json.records.length === 0) {
           const status = document.getElementById("status");
           status.style.color = "red";
@@ -57,16 +59,20 @@
           return;
         }
 
+        const count = json.totalCount ?? json.records.length;
+        status.style.color = "green";
+        status.textContent = `✅ ${count}件の候補があります`;
+
         json.records.forEach(record => {
           console.log("record:", record);
-          const id = record.$id.value;
+          const id = record.$id?.value || "(IDなし)";
           const name = record.案件名?.value || "(無題)";
           const company = record.対象企業?.value || "";
           const client = record.得意先?.value || "";
 
           const opt = document.createElement("option");
           opt.value = id;
-          opt.textContent = `#${id} ${name}（${client} / ${company}）`;
+          opt.textContent = `#${id}：${name}（${company} / ${client}）`;
           select.appendChild(opt);
         });
       } catch (err) {
