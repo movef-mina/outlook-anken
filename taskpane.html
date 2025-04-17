@@ -131,6 +131,29 @@
         }
 
         setHeaderToMail(ankenId);
+
+        Office.context.mailbox.item.body.getAsync(Office.CoercionType.Html, function(result) {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            const currentBody = result.value;
+            const hiddenTag = `<p style="display:none;">KINTONE-ANKEN-ID:${ankenId}</p>`;
+            currentBody = currentBody.replace(/<p[^>]*>KINTONE-ANKEN-ID\s*[:：]\s*\d+<\/p>/gi, "");
+            const updatedBody = currentBody + hiddenTag;
+
+            Office.context.mailbox.item.body.setAsync(
+              updatedBody,
+              { coercionType: Office.CoercionType.Html },
+              function(asyncResult) {
+                if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                  console.log("✅ メール本文に案件IDを埋め込みました");
+                } else {
+                  console.error("❌ 本文への案件ID埋め込みに失敗:", asyncResult.error.message);
+                }
+              }
+            );
+          } else {
+            console.error("❌ 本文の取得に失敗:", result.error.message);
+          }
+        });
       });
     });
   </script>
