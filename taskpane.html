@@ -46,6 +46,7 @@
         });
 
         const json = await res.json();
+        console.log("Power Automate response:", json);
         const select = document.getElementById("ankenSelect");
         select.innerHTML = '<option value="">検索結果から選択してください</option>';
 
@@ -57,10 +58,11 @@
         }
 
         json.records.forEach(record => {
+          console.log("record:", record);
           const id = record.$id.value;
-          const name = record.案件名.value || "(無題)";
-          const company = record.対象企業.value || "";
-          const client = record.得意先.value || "";
+          const name = record.案件名?.value || "(無題)";
+          const company = record.対象企業?.value || "";
+          const client = record.得意先?.value || "";
 
           const opt = document.createElement("option");
           opt.value = id;
