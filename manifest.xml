@@ -26,6 +26,14 @@
     </Sets>
   </Requirements>
 
+  <FormSettings>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://movef-mina.github.io/outlook-anken/taskpane.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
   <Permissions>ReadWriteItem</Permissions>
 
   <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
