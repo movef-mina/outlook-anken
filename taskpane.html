@@ -98,6 +98,8 @@
               if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
                 let currentBody = bodyResult.value || "";
                 currentBody = currentBody.replace(/<[^>]+>\s*\[案件ID:\s*.*?\]\s*<\/[^>]+>/gi, '');
+                currentBody = currentBody.replace(/(<p>(&nbsp;|\s|<br\s*\/?>)*<\/p>)+$/gi, '');
+                currentBody = currentBody.replace(/(<div>(&nbsp;|\s|<br\s*\/?>)*<\/div>)+$/gi, '');
                 const footerHtml = `<p style="color:gray; font-size:0.8em;">[案件ID: ${ankenId}]</p>`;
                 const updatedBody = currentBody + footerHtml;
 
