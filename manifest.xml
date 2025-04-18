@@ -2,7 +2,8 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xmlns:ov1="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
            xsi:type="MailApp">
 
   <Id>4f0ec304-1398-4dbb-8a14-b2f36f8d0fa3</Id>
@@ -29,21 +30,21 @@
 
   <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
 
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
-    <mailappor:VersionOverrides xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-      <mailappor:Requirements>
+  <ov:VersionOverrides xsi:type="VersionOverridesV1_0">
+    <ov1:VersionOverrides xsi:type="VersionOverridesV1_1">
+      <ov1:Requirements>
         <bt:Sets DefaultMinVersion="1.12">
           <bt:Set Name="Mailbox"/>
         </bt:Sets>
-      </mailappor:Requirements>
-      <mailappor:Hosts>
-        <mailappor:Host xsi:type="MailHost">
-          <mailappor:DesktopFormFactor>
-            <mailappor:ExtensionPoint xsi:type="MessageComposeCommandSurface">
-              <mailappor:OfficeTab id="TabDefault">
-                <mailappor:Group id="KintoneGroup">
+      </ov1:Requirements>
+      <ov1:Hosts>
+        <ov1:Host xsi:type="MailHost">
+          <ov1:DesktopFormFactor>
+            <ov1:ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <ov1:OfficeTab id="TabDefault">
+                <ov1:Group id="KintoneGroup">
                   <Label resid="GroupLabel"/>
-                  <mailappor:Control xsi:type="Button" id="KintoneLaunchButton">
+                  <ov1:Control xsi:type="Button" id="KintoneLaunchButton">
                     <Label resid="ButtonLabel"/>
                     <Supertip>
                       <Title resid="ButtonLabel"/>
@@ -57,14 +58,14 @@
                     <Action xsi:type="ShowTaskpane">
                       <SourceLocation resid="Taskpane.Url"/>
                     </Action>
-                  </mailappor:Control>
-                </mailappor:Group>
-              </mailappor:OfficeTab>
-            </mailappor:ExtensionPoint>
-          </mailappor:DesktopFormFactor>
-        </mailappor:Host>
-      </mailappor:Hosts>
-      <mailappor:Resources>
+                  </ov1:Control>
+                </ov1:Group>
+              </ov1:OfficeTab>
+            </ov1:ExtensionPoint>
+          </ov1:DesktopFormFactor>
+        </ov1:Host>
+      </ov1:Hosts>
+      <ov1:Resources>
         <bt:Images>
           <bt:Image id="Icon.16x16" DefaultValue="https://movef-mina.github.io/outlook-anken/icon-16.png"/>
           <bt:Image id="Icon.32x32" DefaultValue="https://movef-mina.github.io/outlook-anken/icon-32.png"/>
@@ -80,7 +81,7 @@
         <bt:LongStrings>
           <bt:String id="ButtonDescription" DefaultValue="kintoneの案件レコードをメールに紐づけます"/>
         </bt:LongStrings>
-      </mailappor:Resources>
-    </mailappor:VersionOverrides>
-  </VersionOverrides>
+      </ov1:Resources>
+    </ov1:VersionOverrides>
+  </ov:VersionOverrides>
 </OfficeApp>
