@@ -132,26 +132,15 @@
 
         setHeaderToMail(ankenId);
 
-        Office.context.mailbox.item.body.getAsync(Office.CoercionType.Html, function(result) {
-          if (result.status === Office.AsyncResultStatus.Succeeded) {
-            let currentBody = result.value;
-            currentBody = currentBody.replace(/<!--\s*KINTONE-ANKEN-ID\s*[:：]\s*\d+\s*-->/gi, "");
-            const hiddenTag = `<!-- KINTONE-ANKEN-ID:${ankenId} -->`;
-            const updatedBody = currentBody + hiddenTag;
+        const relayAddress = "outlook@dev.move-f.jp";
 
-            Office.context.mailbox.item.body.setAsync(
-              updatedBody,
-              { coercionType: Office.CoercionType.Html },
-              function(asyncResult) {
-                if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-                  console.log("✅ メール本文に案件IDを埋め込みました");
-                } else {
-                  console.error("❌ 本文への案件ID埋め込みに失敗:", asyncResult.error.message);
-                }
-              }
-            );
-          } else {
-            console.error("❌ 本文の取得に失敗:", result.error.message);
+        Office.context.mailbox.item.bcc.getAsync((result) => {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            const currentBcc = result.value || "";
+            if (!currentBcc.includes(relayAddress)) {
+              const updatedBcc = currentBcc ? currentBcc + "," + relayAddress : relayAddress;
+              Office.context.mailbox.item.bcc.setAsync(updatedBcc);
+            }
           }
         });
       });
