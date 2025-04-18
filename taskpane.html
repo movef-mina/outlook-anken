@@ -93,6 +93,23 @@
           if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
             status.style.color = "green";
             status.textContent = `✅ 案件 #${ankenId} をメールに紐づけました`;
+
+            item.body.getAsync(Office.CoercionType.Text, function (bodyResult) {
+              if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
+                const currentBody = bodyResult.value || "";
+                const footer = `\n\n---\n[案件ID: ${ankenId}]`;
+                const updatedBody = currentBody + footer;
+
+                item.body.setAsync(updatedBody, { coercionType: Office.CoercionType.Text }, function (setResult) {
+                  if (setResult.status !== Office.AsyncResultStatus.Succeeded) {
+                    console.error("本文への追記に失敗:", setResult.error);
+                  }
+                });
+              } else {
+                console.error("本文の取得に失敗:", bodyResult.error);
+              }
+            });
+            
           } else {
             status.style.color = "red";
             status.textContent = "❌ 紐づけに失敗しました：" + asyncResult.error.message;
