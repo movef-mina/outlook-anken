@@ -131,18 +131,6 @@
         }
 
         setHeaderToMail(ankenId);
-
-        const relayAddress = "outlook@dev.move-f.jp";
-
-        Office.context.mailbox.item.bcc.getAsync((result) => {
-          if (result.status === Office.AsyncResultStatus.Succeeded) {
-            const currentBcc = result.value || "";
-            if (!currentBcc.includes(relayAddress)) {
-              const updatedBcc = currentBcc ? currentBcc + "," + relayAddress : relayAddress;
-              Office.context.mailbox.item.bcc.setAsync(updatedBcc);
-            }
-          }
-        });
       });
     });
   </script>
