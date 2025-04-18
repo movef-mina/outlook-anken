@@ -96,7 +96,8 @@
 
             item.body.getAsync(Office.CoercionType.Html, function (bodyResult) {
               if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
-                const currentBody = bodyResult.value || "";
+                let currentBody = bodyResult.value || "";
+                currentBody = currentBody.replace(/<p[^>]*?>\[案件ID: .*?\]<\/p>/gi, '');
                 const footerHtml = `<p style="color:gray; font-size:0.8em;">[案件ID: 12345]</p>`;
                 const updatedBody = currentBody + footerHtml;
 
