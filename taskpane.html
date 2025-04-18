@@ -97,7 +97,7 @@
             item.body.getAsync(Office.CoercionType.Html, function (bodyResult) {
               if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
                 const currentBody = bodyResult.value || "";
-                const footerHtml = `<hr><p style="color:gray;">[案件ID: ${ankenId}]</p>`;
+                const footerHtml = `<p style="color:gray; font-size:0.8em;">[案件ID: 12345]</p>`;
                 const updatedBody = currentBody + footerHtml;
 
                 item.body.setAsync(updatedBody, { coercionType: Office.CoercionType.Html }, function (setResult) {
