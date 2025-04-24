@@ -68,6 +68,7 @@
                   </Control>
                 </Group>
               </OfficeTab>
+              <SupportsPinning>true</SupportsPinning>
             </ExtensionPoint>
           </DesktopFormFactor>
         </Host>
