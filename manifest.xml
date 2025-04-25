@@ -2,14 +2,15 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappov="http://schemas.microsoft.com/office/mailappversionoverrides"
            xsi:type="MailApp">
 
-  <Id>98765432-aaaa-bbbb-cccc-1234567890ef</Id>
+  <Id>f3dbe1fc-9fd9-4d2c-9f19-8d4e1f0e7c44</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>movef-mina</ProviderName>
   <DefaultLocale>ja-JP</DefaultLocale>
   <DisplayName DefaultValue="kintone連携アドイン"/>
-  <Description DefaultValue="Outlookメールにkintone案件を紐づける"/>
+  <Description DefaultValue="Outlookメールにkintone案件を紐づけるアドイン"/>
   <IconUrl DefaultValue="https://movef-mina.github.io/outlook-anken/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://movef-mina.github.io/outlook-anken/icon-128.png"/>
   <SupportUrl DefaultValue="https://www.example.com/help"/>
