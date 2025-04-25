@@ -2,6 +2,7 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappov="http://schemas.microsoft.com/office/mailappversionoverrides"
            xsi:type="MailApp">
 
   <Id>98765432-aaaa-bbbb-cccc-1234567890ef</Id>
@@ -68,7 +69,6 @@
                   </Control>
                 </Group>
               </OfficeTab>
-              <SupportsPinning>true</SupportsPinning>
             </ExtensionPoint>
           </DesktopFormFactor>
         </Host>
