@@ -105,6 +105,7 @@
                     if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
                       let body = bodyResult.value || '';
                       body = body.replace(/<[^>]+>\s*\[案件ID:\s*\d+\]\s*<\/[^>]+>/gi, ''); // 旧案件ID削除
+                      body = body.replace(/(<(div|p)[^>]*?>\s*(<br\s*\/?>|&nbsp;|\s)*<\/(div|p)>)+$/gi, '');
                       const footer = `<p style="color:gray; font-size:0.8em;">[案件ID: ${ankenId}]</p>`;
                       const updated = body + footer;
 
@@ -117,6 +118,7 @@
                     if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
                       let body = bodyResult.value || '';
                       body = body.replace(/\[案件ID:\s*\d+\]/g, ''); // 旧案件ID削除
+                      body = body.replace(/\n+$/g, '');
                       const footer = `\n[案件ID: ${ankenId}]`;
                       const updated = body + footer;
 
